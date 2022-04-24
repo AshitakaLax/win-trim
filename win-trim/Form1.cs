@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -24,6 +25,11 @@ namespace win_trim
             player.settings.autoStart = false;
             player2.settings.autoStart = false;
             player2.CurrentMediaItemAvailable += Player_CurrentMediaItemAvailable;
+            if(!string.IsNullOrEmpty(Properties.Settings.Default.DefaultDirectory))
+            {
+                SelectedDirectory = Properties.Settings.Default.DefaultDirectory;
+                LoadFiles();
+            }
         }
 
         private void Player_CurrentMediaItemAvailable(object sender, AxWMPLib._WMPOCXEvents_CurrentMediaItemAvailableEvent e)
@@ -42,16 +48,24 @@ namespace win_trim
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     SelectedDirectory = fbd.SelectedPath;
-                    this.DirectoryLabel.Text = $"Select Directory\n{fbd.SelectedPath}";
-                    string[] files = Directory.GetFiles(fbd.SelectedPath, "*.mp4");
-                    string[] filesOnly = files.Select(file => Path.GetFileName(file)).ToArray();
-                    FileListBox.Items.AddRange(filesOnly);
+                    Properties.Settings.Default.DefaultDirectory = SelectedDirectory;
+                    Properties.Settings.Default.Save();
+                    LoadFiles();
                     //System.Windows.Forms.MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
                 }
             }
         }
 
-        private void QueueButton_Click(object sender, EventArgs e)
+        private void LoadFiles()
+        {
+            this.DirectoryLabel.Text = $"Select Directory\n{SelectedDirectory}";
+            string[] files = Directory.GetFiles(SelectedDirectory, "*.mp4");
+            string[] filesOnly = files.Select(file => Path.GetFileName(file)).ToArray();
+            FileListBox.Items.AddRange(filesOnly);
+
+        }
+
+        private async void QueueButton_Click(object sender, EventArgs e)
         {
             // Fetch the start time and end time
             double trimStartSeconds = player.Ctlcontrols.currentPosition;
@@ -62,13 +76,20 @@ namespace win_trim
             player2.Ctlcontrols.stop();
 
             // start a new thread to create the new video file
-
-            var temp = FFmpeg.Conversions.New()
-                .SetSeek(TimeSpan.FromSeconds(trimStartSeconds))
-                .AddParameter($"-to {endTime.ToString("hh:mm:ss")}")
-                .SetOutput($"temp-{SelectedFile}")
-                .Start();
+            await TrimVideo(TimeSpan.FromSeconds(trimStartSeconds), endTime); 
             // replace the original file with the new video file.
+        }
+        private async Task TrimVideo(TimeSpan start, TimeSpan end)
+        {
+            string endString = end.ToString(@"hh\:mm\:ss");
+            var inputInfo = await FFmpeg.GetMediaInfo(Path.Combine(SelectedDirectory, SelectedFile));
+            var temp = await FFmpeg.Conversions.New()
+                .AddStream(inputInfo.Streams)
+                .SetSeek(start)
+                .AddParameter($"-to {endString}")
+                .SetOutput(Path.Combine(SelectedDirectory, $"temp-{SelectedFile}"))
+                .Start();
+
         }
 
         private void FileListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -87,6 +108,11 @@ namespace win_trim
             {
                 player.Ctlcontrols.currentPosition = player.Ctlcontrols.currentPosition + 10;
             }
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
