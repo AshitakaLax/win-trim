@@ -9,12 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AxWMPLib;
+using Xabe.FFmpeg;
 
 namespace win_trim
 {
     public partial class Form1 : Form
     {
         private string SelectedFile;
+        private string SelectedDirectory;
         public Form1()
         {
             InitializeComponent();
@@ -39,8 +41,11 @@ namespace win_trim
                 FileListBox.Items.Clear();
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
+                    SelectedDirectory = fbd.SelectedPath;
+                    this.DirectoryLabel.Text = $"Select Directory\n{fbd.SelectedPath}";
                     string[] files = Directory.GetFiles(fbd.SelectedPath, "*.mp4");
-                    FileListBox.Items.AddRange(files);
+                    string[] filesOnly = files.Select(file => Path.GetFileName(file)).ToArray();
+                    FileListBox.Items.AddRange(filesOnly);
                     //System.Windows.Forms.MessageBox.Show("Files found: " + files.Length.ToString(), "Message");
                 }
             }
@@ -69,8 +74,8 @@ namespace win_trim
         private void FileListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedFile = (string)FileListBox.SelectedItem;
-            player.URL = SelectedFile;
-            player2.URL = SelectedFile;
+            player.URL = Path.Combine(SelectedDirectory, SelectedFile);
+            player2.URL = Path.Combine(SelectedDirectory, SelectedFile);
 
             StatsLabel.Text = $"STATS: {SelectedFile} \nDuration:{player.currentMedia.duration}";
             player.Ctlcontrols.currentPosition = 60.00;
