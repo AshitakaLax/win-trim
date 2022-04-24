@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AxWMPLib;
 using Xabe.FFmpeg;
+using LibVLCSharp.Shared;
 
 namespace win_trim
 {
@@ -18,6 +19,15 @@ namespace win_trim
     {
         private string SelectedFile;
         private string SelectedDirectory;
+        //VLC stuff
+        public LibVLC _libVLC;
+        public MediaPlayer.MediaPlayer mediaPlayer;
+        public Media media;
+        public bool IsFullScreen = false;
+        public bool IsPlaying = false;
+        public Size oldVideoSize;
+        public Size oldFormSize;
+        public Point oldVideoLocation;
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +40,9 @@ namespace win_trim
                 SelectedDirectory = Properties.Settings.Default.DefaultDirectory;
                 LoadFiles();
             }
+            Core.Initialize();
+            //this.KeyPreview = true;
+            
         }
 
         private void Player_CurrentMediaItemAvailable(object sender, AxWMPLib._WMPOCXEvents_CurrentMediaItemAvailableEvent e)

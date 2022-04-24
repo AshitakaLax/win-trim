@@ -65,7 +65,7 @@
             this.FileListBox.Location = new System.Drawing.Point(38, 218);
             this.FileListBox.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.FileListBox.Name = "FileListBox";
-            this.FileListBox.Size = new System.Drawing.Size(536, 189);
+            this.FileListBox.Size = new System.Drawing.Size(536, 300);
             this.FileListBox.TabIndex = 3;
             this.FileListBox.SelectedIndexChanged += new System.EventHandler(this.FileListBox_SelectedIndexChanged);
             // 
@@ -73,7 +73,7 @@
             // 
             this.StatsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.StatsLabel.AutoSize = true;
-            this.StatsLabel.Location = new System.Drawing.Point(41, 451);
+            this.StatsLabel.Location = new System.Drawing.Point(41, 557);
             this.StatsLabel.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.StatsLabel.Name = "StatsLabel";
             this.StatsLabel.Size = new System.Drawing.Size(90, 37);
@@ -87,7 +87,7 @@
             this.player2.Location = new System.Drawing.Point(0, 0);
             this.player2.Name = "player2";
             this.player2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("player2.OcxState")));
-            this.player2.Size = new System.Drawing.Size(425, 416);
+            this.player2.Size = new System.Drawing.Size(395, 522);
             this.player2.TabIndex = 1;
             // 
             // player
@@ -97,14 +97,14 @@
             this.player.Location = new System.Drawing.Point(0, 0);
             this.player.Name = "player";
             this.player.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("player.OcxState")));
-            this.player.Size = new System.Drawing.Size(413, 416);
+            this.player.Size = new System.Drawing.Size(384, 522);
             this.player.TabIndex = 0;
             this.player.KeyPressEvent += new AxWMPLib._WMPOCXEvents_KeyPressEventHandler(this.player_KeyPressEvent);
             // 
             // QueueButton
             // 
             this.QueueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.QueueButton.Location = new System.Drawing.Point(602, 455);
+            this.QueueButton.Location = new System.Drawing.Point(602, 561);
             this.QueueButton.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.QueueButton.Name = "QueueButton";
             this.QueueButton.Size = new System.Drawing.Size(367, 65);
@@ -138,15 +138,15 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.player2);
-            this.splitContainer1.Size = new System.Drawing.Size(842, 416);
-            this.splitContainer1.SplitterDistance = 413;
+            this.splitContainer1.Size = new System.Drawing.Size(783, 522);
+            this.splitContainer1.SplitterDistance = 384;
             this.splitContainer1.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1456, 555);
+            this.ClientSize = new System.Drawing.Size(1431, 661);
             this.Controls.Add(this.DirectoryLabel);
             this.Controls.Add(this.QueueButton);
             this.Controls.Add(this.StatsLabel);
