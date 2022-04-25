@@ -23,7 +23,7 @@ namespace video_trimmer
             // VLC Player 1
             LibVLCOne = new LibVLC();
             mediaPlayerOne = new MediaPlayer(LibVLCOne);
-            videoView1.MediaPlayer = mediaPlayerOne;
+            videoView.MediaPlayer = mediaPlayerOne;
 
             // VLC Player 2
             mediaPlayerTwo = new MediaPlayer(LibVLCOne);
@@ -35,11 +35,6 @@ namespace video_trimmer
             string[] files = Directory.GetFiles(SelectedDirectory, "*.mp4");
             string[] filesOnly = files.Select(file => Path.GetFileName(file)).ToArray();
             FileListBox.Items.AddRange(filesOnly);
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private async void QueueJobButton_Click(object sender, EventArgs e)

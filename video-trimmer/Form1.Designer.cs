@@ -174,7 +174,6 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "VideoTrimmerForm";
             this.Text = "Video Trimmer";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.videoView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
