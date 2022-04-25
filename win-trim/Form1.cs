@@ -44,7 +44,6 @@ namespace win_trim
             //this.KeyPreview = true;
             _libVLC = new LibVLC();
             mediaPlayer = new LibVLCSharp.Shared.MediaPlayer(_libVLC);
-            mediaPlayer.  
             videoView1.MediaPlayer = mediaPlayer;
 
         }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.videoView = new LibVLCSharp.WinForms.VideoView();
             this.videoView2 = new LibVLCSharp.WinForms.VideoView();
-            this.videoView3 = new LibVLCSharp.WinForms.VideoView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button1 = new System.Windows.Forms.Button();
             this.DirectoryLabel = new System.Windows.Forms.Label();
@@ -39,8 +39,8 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.videoView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.videoView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -49,6 +49,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.SuspendLayout();
             // 
+            // videoView
+            // 
+            this.videoView.BackColor = System.Drawing.Color.Black;
+            this.videoView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.videoView.Location = new System.Drawing.Point(0, 0);
+            this.videoView.MediaPlayer = null;
+            this.videoView.Name = "videoView";
+            this.videoView.Size = new System.Drawing.Size(806, 686);
+            this.videoView.TabIndex = 0;
+            this.videoView.Text = "videoView2";
+            // 
             // videoView2
             // 
             this.videoView2.BackColor = System.Drawing.Color.Black;
@@ -56,20 +67,9 @@
             this.videoView2.Location = new System.Drawing.Point(0, 0);
             this.videoView2.MediaPlayer = null;
             this.videoView2.Name = "videoView2";
-            this.videoView2.Size = new System.Drawing.Size(806, 686);
-            this.videoView2.TabIndex = 0;
-            this.videoView2.Text = "videoView2";
-            // 
-            // videoView3
-            // 
-            this.videoView3.BackColor = System.Drawing.Color.Black;
-            this.videoView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.videoView3.Location = new System.Drawing.Point(0, 0);
-            this.videoView3.MediaPlayer = null;
-            this.videoView3.Name = "videoView3";
-            this.videoView3.Size = new System.Drawing.Size(741, 686);
-            this.videoView3.TabIndex = 1;
-            this.videoView3.Text = "videoView3";
+            this.videoView2.Size = new System.Drawing.Size(741, 686);
+            this.videoView2.TabIndex = 1;
+            this.videoView2.Text = "videoView3";
             // 
             // splitContainer1
             // 
@@ -78,12 +78,11 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.videoView2);
-            this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
+            this.splitContainer1.Panel1.Controls.Add(this.videoView);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.videoView3);
+            this.splitContainer1.Panel2.Controls.Add(this.videoView2);
             this.splitContainer1.Size = new System.Drawing.Size(1551, 686);
             this.splitContainer1.SplitterDistance = 806;
             this.splitContainer1.TabIndex = 2;
@@ -96,6 +95,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "Select Directory";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.SelectDirectoryButton_Click);
             // 
             // DirectoryLabel
             // 
@@ -123,7 +123,7 @@
             this.QueueButton.TabIndex = 6;
             this.QueueButton.Text = "Queue Job";
             this.QueueButton.UseVisualStyleBackColor = true;
-            this.QueueButton.Click += new System.EventHandler(this.button2_Click);
+            this.QueueButton.Click += new System.EventHandler(this.QueueJobButton_Click);
             // 
             // FileListBox
             // 
@@ -133,6 +133,7 @@
             this.FileListBox.Name = "FileListBox";
             this.FileListBox.Size = new System.Drawing.Size(453, 484);
             this.FileListBox.TabIndex = 7;
+            this.FileListBox.SelectedIndexChanged += new System.EventHandler(this.FileListBox_SelectedIndexChanged);
             // 
             // trackBar1
             // 
@@ -174,8 +175,8 @@
             this.Name = "VideoTrimmerForm";
             this.Text = "Video Trimmer";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.videoView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.videoView3)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -189,8 +190,8 @@
 
         #endregion
         private LibVLCSharp.WinForms.VideoView videoView1;
+        private LibVLCSharp.WinForms.VideoView videoView;
         private LibVLCSharp.WinForms.VideoView videoView2;
-        private LibVLCSharp.WinForms.VideoView videoView3;
         private SplitContainer splitContainer1;
         private Button button1;
         private Label DirectoryLabel;
