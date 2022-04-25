@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AxWMPLib;
+//using AxWMPLib;
 using Xabe.FFmpeg;
 using LibVLCSharp.Shared;
 
@@ -21,7 +21,7 @@ namespace win_trim
         private string SelectedDirectory;
         //VLC stuff
         public LibVLC _libVLC;
-        public MediaPlayer.MediaPlayer mediaPlayer;
+        public LibVLCSharp.Shared.MediaPlayer mediaPlayer;
         public Media media;
         public bool IsFullScreen = false;
         public bool IsPlaying = false;
@@ -42,7 +42,11 @@ namespace win_trim
             }
             Core.Initialize();
             //this.KeyPreview = true;
-            
+            _libVLC = new LibVLC();
+            mediaPlayer = new LibVLCSharp.Shared.MediaPlayer(_libVLC);
+            mediaPlayer.  
+            videoView1.MediaPlayer = mediaPlayer;
+
         }
 
         private void Player_CurrentMediaItemAvailable(object sender, AxWMPLib._WMPOCXEvents_CurrentMediaItemAvailableEvent e)
@@ -108,6 +112,8 @@ namespace win_trim
         private void FileListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedFile = (string)FileListBox.SelectedItem;
+            string videoURL = Path.Combine(SelectedDirectory, SelectedFile);
+            mediaPlayer.Play(new Media(_libVLC, videoURL));
             player.URL = Path.Combine(SelectedDirectory, SelectedFile);
             player2.URL = Path.Combine(SelectedDirectory, SelectedFile);
 

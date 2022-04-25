@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.videoView1 = new LibVLCSharp.WinForms.VideoView();
             this.DirectoryButton = new System.Windows.Forms.Button();
             this.FileListBox = new System.Windows.Forms.ListBox();
             this.StatsLabel = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@
             this.QueueButton = new System.Windows.Forms.Button();
             this.DirectoryLabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -44,6 +46,19 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // videoView1
+            // 
+            this.videoView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.videoView1.BackColor = System.Drawing.Color.Black;
+            this.videoView1.Location = new System.Drawing.Point(665, 37);
+            this.videoView1.MediaPlayer = null;
+            this.videoView1.Name = "videoView1";
+            this.videoView1.Size = new System.Drawing.Size(459, 441);
+            this.videoView1.TabIndex = 0;
+            this.videoView1.Text = "videoView1";
             // 
             // DirectoryButton
             // 
@@ -87,7 +102,7 @@
             this.player2.Location = new System.Drawing.Point(0, 0);
             this.player2.Name = "player2";
             this.player2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("player2.OcxState")));
-            this.player2.Size = new System.Drawing.Size(395, 522);
+            this.player2.Size = new System.Drawing.Size(355, 394);
             this.player2.TabIndex = 1;
             // 
             // player
@@ -97,7 +112,7 @@
             this.player.Location = new System.Drawing.Point(0, 0);
             this.player.Name = "player";
             this.player.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("player.OcxState")));
-            this.player.Size = new System.Drawing.Size(384, 522);
+            this.player.Size = new System.Drawing.Size(344, 394);
             this.player.TabIndex = 0;
             this.player.KeyPressEvent += new AxWMPLib._WMPOCXEvents_KeyPressEventHandler(this.player_KeyPressEvent);
             // 
@@ -127,7 +142,7 @@
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(602, 12);
+            this.splitContainer1.Location = new System.Drawing.Point(1243, 427);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -138,8 +153,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.player2);
-            this.splitContainer1.Size = new System.Drawing.Size(783, 522);
-            this.splitContainer1.SplitterDistance = 384;
+            this.splitContainer1.Size = new System.Drawing.Size(703, 394);
+            this.splitContainer1.SplitterDistance = 344;
             this.splitContainer1.TabIndex = 7;
             // 
             // Form1
@@ -148,6 +163,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1431, 661);
             this.Controls.Add(this.DirectoryLabel);
+            this.Controls.Add(this.videoView1);
             this.Controls.Add(this.QueueButton);
             this.Controls.Add(this.StatsLabel);
             this.Controls.Add(this.FileListBox);
@@ -155,6 +171,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.player)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -168,6 +185,7 @@
 
         #endregion
 
+        private LibVLCSharp.WinForms.VideoView videoView1;
         private AxWMPLib.AxWindowsMediaPlayer player;
         private AxWMPLib.AxWindowsMediaPlayer player2;
         private System.Windows.Forms.Button DirectoryButton;
