@@ -1,4 +1,5 @@
 using LibVLCSharp.Shared;
+using video_trimmer.Processing;
 using Xabe.FFmpeg;
 
 namespace video_trimmer
@@ -14,6 +15,8 @@ namespace video_trimmer
         // VLC Player 2
         public MediaPlayer mediaPlayerTwo;
         public Media mediaTwo;
+
+        private readonly IVideoProcessor VideoProcessor = new VideoProcessor();
 
         public VideoTrimmerForm()
         {
@@ -42,24 +45,17 @@ namespace video_trimmer
             // Fetch the start time and end time
             long trimStartSeconds = mediaPlayerOne.Time;
             long trimEndSeconds = mediaPlayerTwo.Time;
+            TimeSpan startTime = TimeSpan.FromMilliseconds(trimStartSeconds);
             TimeSpan endTime = TimeSpan.FromMilliseconds(trimEndSeconds);
+
+            // input file
+            string inputFile = Path.Combine(SelectedDirectory, SelectedFile);
+            string outputFile = Path.Combine(SelectedDirectory, $"temp-{SelectedFile}");
 
             // close out the media players
             // start a new thread to create the new video file
-            await TrimVideo(TimeSpan.FromMilliseconds(trimStartSeconds), endTime);
+            await VideoProcessor.TrimVideo(inputFile, outputFile, startTime, endTime);
             // replace the original file with the new video file.
-
-        }
-        private async Task TrimVideo(TimeSpan start, TimeSpan end)
-        {
-            string endString = end.ToString(@"hh\:mm\:ss");
-            var inputInfo = await FFmpeg.GetMediaInfo(Path.Combine(SelectedDirectory, SelectedFile));
-            var temp = await FFmpeg.Conversions.New()
-                .AddStream(inputInfo.Streams)
-                .SetSeek(start)
-                .AddParameter($"-to {endString}")
-                .SetOutput(Path.Combine(SelectedDirectory, $"temp-{SelectedFile}"))
-                .Start();
 
         }
 
@@ -81,15 +77,33 @@ namespace video_trimmer
             }
         }
 
-        private void FileListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private async void FileListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedFile = (string)FileListBox.SelectedItem;
             string videoURL = Path.Combine(SelectedDirectory, SelectedFile);
             mediaPlayerOne.Media = new Media(LibVLCOne, videoURL);
             mediaPlayerTwo.Media = new Media(LibVLCOne, videoURL);
            
-            StatsLabel.Text = $"STATS: {SelectedFile} \nDuration:{mediaPlayerOne.Media.Duration}";
-            mediaPlayerOne.SeekTo(TimeSpan.FromSeconds(60));            
+            await mediaPlayerOne.Media.Parse();
+            StatsLabel.Text = $"STATS: {SelectedFile} \nDuration:{TimeSpan.FromMilliseconds(mediaPlayerOne.Media.Duration)}";
+            mediaPlayerOne.SeekTo(TimeSpan.FromSeconds(60));
+            mediaPlayerOne.Playing += MediaPlayerOne_Playing;
+            mediaPlayerOne.Volume = 0;
+            mediaPlayerOne.PositionChanged += MediaPlayerOne_PositionChanged;
+            mediaPlayerOne.Play();
+        }
+
+        private void MediaPlayerOne_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
+        {
+            mediaPlayerOne.Pause();
+        }
+
+        private void MediaPlayerOne_Playing(object? sender, EventArgs e)
+        {
+            //mediaPlayerOne.NextFrame();
+            //mediaPlayerOne.Pause();
+            //mediaPlayerOne.NextFrame();
+
         }
     }
 }
