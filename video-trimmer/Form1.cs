@@ -54,7 +54,7 @@ namespace video_trimmer
 
             // close out the media players
             // start a new thread to create the new video file
-            await VideoProcessor.TrimVideo(inputFile, outputFile, startTime, endTime);
+            await VideoProcessor.CreateVideo(inputFile, outputFile, startTime, endTime);
             // replace the original file with the new video file.
 
         }

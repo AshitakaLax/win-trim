@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "win-trim", "win-trim\win-trim.csproj", "{834F3488-37A7-4192-82EB-8B425B3DA0F2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "video-trimmer", "video-trimmer\video-trimmer.csproj", "{3125B6CD-19C9-4A4D-B8DF-973520E2546A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "video-trimmer", "video-trimmer\video-trimmer.csproj", "{3125B6CD-19C9-4A4D-B8DF-973520E2546A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{834F3488-37A7-4192-82EB-8B425B3DA0F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{834F3488-37A7-4192-82EB-8B425B3DA0F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{834F3488-37A7-4192-82EB-8B425B3DA0F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{834F3488-37A7-4192-82EB-8B425B3DA0F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3125B6CD-19C9-4A4D-B8DF-973520E2546A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3125B6CD-19C9-4A4D-B8DF-973520E2546A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3125B6CD-19C9-4A4D-B8DF-973520E2546A}.Release|Any CPU.ActiveCfg = Release|Any CPU
