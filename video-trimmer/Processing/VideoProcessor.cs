@@ -10,7 +10,7 @@ namespace video_trimmer.Processing
 
         public IConversionResult Result { get; set; }
         public bool IsProcessing { get; set; } = false;
-        public async Task CreateVideo(string inputFile, string outputFile, TimeSpan start, TimeSpan end)
+        public async Task ConversionSetup(string inputFile, string outputFile, TimeSpan start, TimeSpan end)
         {
             string endString = end.ToString(@"hh\:mm\:ss");
             var inputInfo = await FFmpeg.GetMediaInfo(inputFile);

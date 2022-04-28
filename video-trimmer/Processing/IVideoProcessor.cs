@@ -9,7 +9,7 @@ namespace video_trimmer.Processing
         IConversion Conversion { get; set; }
         IConversionResult Result { get; set; }
         bool IsProcessing { get; set; }
-        Task CreateVideo(string inputFile, string outputFile, TimeSpan start, TimeSpan end);
+        Task ConversionSetup(string inputFile, string outputFile, TimeSpan start, TimeSpan end);
         Task Start(ConversionProgressEventHandler onProgressEventHandler, Action<IVideoProcessor, IConversionResult> onCompleteHandler);
     }
 }

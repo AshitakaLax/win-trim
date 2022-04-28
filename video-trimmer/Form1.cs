@@ -6,6 +6,7 @@ namespace video_trimmer
 {
     public partial class VideoTrimmerForm : Form
     {
+        private delegate void SafeCallDelegate(string text);
         private string SelectedFile;
         private string SelectedDirectory;
         // VLC Player 1
@@ -16,6 +17,7 @@ namespace video_trimmer
         public MediaPlayer mediaPlayerTwo;
         public Media mediaTwo;
 
+        private readonly IProcessorManager ProcessorManager;
         private readonly IVideoProcessor VideoProcessor = new VideoProcessor();
 
         public VideoTrimmerForm()
@@ -31,6 +33,9 @@ namespace video_trimmer
             // VLC Player 2
             mediaPlayerTwo = new MediaPlayer(LibVLCOne);
             videoView2.MediaPlayer = mediaPlayerTwo;
+
+            ProcessorManager = new ProcessorManager();
+            ProcessorManager.UpdateHandler = UpdateProgressStatus;
         }
         private void LoadFiles()
         {
@@ -54,8 +59,9 @@ namespace video_trimmer
 
             // close out the media players
             // start a new thread to create the new video file
-            await VideoProcessor.CreateVideo(inputFile, outputFile, startTime, endTime);
-            // replace the original file with the new video file.
+            IVideoProcessor processor = new VideoProcessor();
+            await processor.ConversionSetup(inputFile, outputFile, startTime, endTime);
+            ProcessorManager.AddProcessor(processor);
 
         }
 
@@ -136,6 +142,24 @@ namespace video_trimmer
             // TrackBar2 value is between 0(the end), and -600(10 minutes from the end).
             mediaPlayerTwo.SeekTo(target);
             EndTrimLabel.Text = $"End Trim: {target.ToString(@"hh\:mm\:ss")}";    
+        }
+
+        private void UpdateProgressStatus((int jobs, double progress) status)
+        {
+            WriteProgressStatus($"Jobs:{status.jobs} Average Progress:{status.progress}");
+        }
+
+        private void WriteProgressStatus(string text)
+        {
+            if (StatusLabel.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(WriteProgressStatus);
+                StatusLabel.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                StatusLabel.Text = text;
+            }
         }
     }
 }
