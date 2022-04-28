@@ -85,15 +85,26 @@ namespace video_trimmer
             mediaPlayerTwo.Media = new Media(LibVLCOne, videoURL);
            
             await mediaPlayerOne.Media.Parse();
+            await mediaPlayerTwo.Media.Parse();
             StatsLabel.Text = $"STATS: {SelectedFile} \nDuration:{TimeSpan.FromMilliseconds(mediaPlayerOne.Media.Duration)}";
             mediaPlayerOne.SeekTo(TimeSpan.FromSeconds(60));
-            mediaPlayerOne.Playing += MediaPlayerOne_Playing;
             mediaPlayerOne.Volume = 0;
-            mediaPlayerOne.PositionChanged += MediaPlayerOne_PositionChanged;
+            mediaPlayerOne.PositionChanged += MediaPlayer_PositionChanged;
             mediaPlayerOne.Play();
+            // update media Player two
+            TimeSpan duration = TimeSpan.FromMilliseconds(mediaPlayerOne.Media.Duration);
+            mediaPlayerTwo.SeekTo(duration.Subtract(TimeSpan.FromSeconds(60)));
+            mediaPlayerTwo.Volume = 0;
+            mediaPlayerTwo.PositionChanged += MediaPlayerTwo_PositionChanged;
+            mediaPlayerTwo.Play();
         }
 
-        private void MediaPlayerOne_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
+        private void MediaPlayerTwo_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
+        {
+            mediaPlayerTwo.Pause();
+        }
+
+        private void MediaPlayer_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
         {
             mediaPlayerOne.Pause();
         }
@@ -104,6 +115,27 @@ namespace video_trimmer
             //mediaPlayerOne.Pause();
             //mediaPlayerOne.NextFrame();
 
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            //Todo update the current position within the first 5 minutes of the 
+            TimeSpan target = TimeSpan.FromSeconds(trackBar1.Value);
+            mediaPlayerOne.SeekTo(target);
+            StartTrimLabel.Text = $"Start Trim: {target.ToString(@"hh\:mm\:ss")}";
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar2_ValueChanged(object sender, EventArgs e)
+        {
+            TimeSpan target = TimeSpan.FromMilliseconds(mediaPlayerTwo.Media.Duration + (trackBar2.Value * 1000));
+            // TrackBar2 value is between 0(the end), and -600(10 minutes from the end).
+            mediaPlayerTwo.SeekTo(target);
+            EndTrimLabel.Text = $"End Trim: {target.ToString(@"hh\:mm\:ss")}";    
         }
     }
 }
