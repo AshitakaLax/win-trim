@@ -60,7 +60,7 @@ namespace video_trimmer
             // close out the media players
             // start a new thread to create the new video file
             IVideoProcessor processor = new VideoProcessor();
-            await processor.ConversionSetup(inputFile, outputFile, startTime, endTime);
+            await processor.ConversionSetup(inputFile, outputFile, startTime, endTime, OverwriteCheckBox.Checked);
             ProcessorManager.AddProcessor(processor);
 
         }

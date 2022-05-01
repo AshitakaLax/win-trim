@@ -41,6 +41,7 @@
             this.StatusLabel = new System.Windows.Forms.Label();
             this.EndTrimLabel = new System.Windows.Forms.Label();
             this.StartTrimLabel = new System.Windows.Forms.Label();
+            this.OverwriteCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.videoView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -58,7 +59,7 @@
             this.videoView.Location = new System.Drawing.Point(0, 0);
             this.videoView.MediaPlayer = null;
             this.videoView.Name = "videoView";
-            this.videoView.Size = new System.Drawing.Size(805, 685);
+            this.videoView.Size = new System.Drawing.Size(760, 685);
             this.videoView.TabIndex = 0;
             this.videoView.Text = "videoView2";
             // 
@@ -69,7 +70,7 @@
             this.videoView2.Location = new System.Drawing.Point(0, 0);
             this.videoView2.MediaPlayer = null;
             this.videoView2.Name = "videoView2";
-            this.videoView2.Size = new System.Drawing.Size(743, 685);
+            this.videoView2.Size = new System.Drawing.Size(788, 685);
             this.videoView2.TabIndex = 1;
             this.videoView2.Text = "videoView3";
             // 
@@ -86,7 +87,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.videoView2);
             this.splitContainer1.Size = new System.Drawing.Size(1551, 685);
-            this.splitContainer1.SplitterDistance = 805;
+            this.splitContainer1.SplitterDistance = 760;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -172,7 +173,7 @@
             // EndTrimLabel
             // 
             this.EndTrimLabel.AutoSize = true;
-            this.EndTrimLabel.Location = new System.Drawing.Point(2014, 819);
+            this.EndTrimLabel.Location = new System.Drawing.Point(1919, 819);
             this.EndTrimLabel.Margin = new System.Windows.Forms.Padding(9, 0, 9, 0);
             this.EndTrimLabel.Name = "EndTrimLabel";
             this.EndTrimLabel.Size = new System.Drawing.Size(306, 48);
@@ -189,11 +190,22 @@
             this.StartTrimLabel.TabIndex = 12;
             this.StartTrimLabel.Text = "Start Trim: 00:01:00";
             // 
+            // OverwriteCheckBox
+            // 
+            this.OverwriteCheckBox.AutoSize = true;
+            this.OverwriteCheckBox.Location = new System.Drawing.Point(388, 914);
+            this.OverwriteCheckBox.Name = "OverwriteCheckBox";
+            this.OverwriteCheckBox.Size = new System.Drawing.Size(221, 52);
+            this.OverwriteCheckBox.TabIndex = 13;
+            this.OverwriteCheckBox.Text = "Overwrite";
+            this.OverwriteCheckBox.UseVisualStyleBackColor = true;
+            // 
             // VideoTrimmerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(20F, 48F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2297, 1005);
+            this.Controls.Add(this.OverwriteCheckBox);
             this.Controls.Add(this.StartTrimLabel);
             this.Controls.Add(this.EndTrimLabel);
             this.Controls.Add(this.StatusLabel);
@@ -235,5 +247,6 @@
         private Label StatusLabel;
         private Label EndTrimLabel;
         private Label StartTrimLabel;
+        private CheckBox OverwriteCheckBox;
     }
 }
