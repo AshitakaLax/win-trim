@@ -28,10 +28,18 @@ namespace video_trimmer.Processing
             if(args.Percent > 99)
             {
                 ProcessStatusDictionary.Remove(args.ProcessId);
+                if(ProcessStatusDictionary.Count == 0)
+                {
+                    UpdateHandler?.Invoke((0, 100));
+                }
             }
             //sum up all of the Processor status's and 
-            double progressTotal = ProcessStatusDictionary.Values.Sum() / ProcessStatusDictionary.Count;
-            UpdateHandler?.Invoke((ProcessorList.Count, progressTotal));
+            if (ProcessStatusDictionary.Count > 0)
+            {
+                // TODO cross thread issue
+                double progressTotal = ProcessStatusDictionary.Values.Sum() / ProcessStatusDictionary.Count;
+                UpdateHandler?.Invoke((ProcessorList.Count, progressTotal));
+            }
         }
 
         private void OnProcessorFinished(IVideoProcessor processor, IConversionResult results)

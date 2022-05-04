@@ -58,6 +58,8 @@ namespace video_trimmer
             string outputFile = Path.Combine(SelectedDirectory, $"temp-{SelectedFile}");
 
             // close out the media players
+            mediaPlayerOne.Stop();
+            mediaPlayerTwo.Stop();
             // start a new thread to create the new video file
             IVideoProcessor processor = new VideoProcessor();
             await processor.ConversionSetup(inputFile, outputFile, startTime, endTime, OverwriteCheckBox.Checked);

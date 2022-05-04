@@ -53,6 +53,7 @@ namespace video_trimmer.Processing
         {
             if (OverwriteOriginal)
             {
+                // TODO have a try catch to handle when this fails.
                 File.Move(OutputFile, InputFile, true);
             }
         }
