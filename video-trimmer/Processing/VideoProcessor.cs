@@ -6,6 +6,7 @@ namespace video_trimmer.Processing
 {
     public class VideoProcessor : IVideoProcessor
     {
+
         public IConversion Conversion { get; set; }
 
         public IConversionResult Result { get; set; }
@@ -15,6 +16,7 @@ namespace video_trimmer.Processing
 
         public string InputFile { get; private set; }
         public string OutputFile { get; private set; }
+        public int ThreadId { get; private set; } = -1;
         public async Task ConversionSetup(string inputFile, string outputFile, TimeSpan start, TimeSpan end, bool overwrite)
         {
             OverwriteOriginal = overwrite;
@@ -41,10 +43,10 @@ namespace video_trimmer.Processing
             {
                 IsProcessing = true;
                 Result = await Conversion.Start();
-                IsProcessing = false;
-                onCompleteHandler(this, Result);
             }).ContinueWith((obj)=> {
-                onProgressEventHandler.Invoke(this, new ConversionProgressEventArgs(TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10), Thread.CurrentThread.ManagedThreadId));
+                IsProcessing = false;
+                onProgressEventHandler.Invoke(this, new ConversionProgressEventArgs(TimeSpan.Zero, TimeSpan.MaxValue, 0));
+                onCompleteHandler(this, Result);
                 ReplaceOriginal();
             });
         }
@@ -53,8 +55,14 @@ namespace video_trimmer.Processing
         {
             if (OverwriteOriginal)
             {
-                // TODO have a try catch to handle when this fails.
-                File.Move(OutputFile, InputFile, true);
+                try
+                {
+                    File.Move(OutputFile, InputFile, true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to move file {OutputFile} to {InputFile}. {ex.Message}");
+                }
             }
         }
     }

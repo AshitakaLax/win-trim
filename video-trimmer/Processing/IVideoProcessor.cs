@@ -6,6 +6,9 @@ namespace video_trimmer.Processing
 {
     public interface IVideoProcessor
     {
+        string InputFile { get; }
+        string OutputFile { get; }
+
         IConversion Conversion { get; set; }
         IConversionResult Result { get; set; }
         bool IsProcessing { get; set; }

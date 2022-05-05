@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,41 +13,62 @@ namespace video_trimmer.Processing
     public class ProcessorManager : IProcessorManager
     {
         private Action<(int jobs, double progress)> UpdateProgressHandler;
-        private Dictionary<long, int> ProcessStatusDictionary = new Dictionary<long, int>();
-        public List<IVideoProcessor> ProcessorList { get; set; } = new List<IVideoProcessor>();
+        private ConcurrentDictionary<long, int> ProcessStatusDictionary = new ConcurrentDictionary<long, int>();
+        public ConcurrentDictionary<string, IVideoProcessor> ProcessorDictionary { get; set; } = new ConcurrentDictionary<string, IVideoProcessor>();
         public Action<(int jobs, double progress)> UpdateHandler { get => UpdateProgressHandler; set => UpdateProgressHandler = value; }
 
         public void AddProcessor(IVideoProcessor processor)
         {
-            ProcessorList.Add(processor);
+            if(ProcessorDictionary.ContainsKey(processor.InputFile))
+            {
+                MessageBox.Show($"File({processor.InputFile}) is already being processed");
+                return;
+            }
+
+            ProcessorDictionary[processor.InputFile] = processor;
 
             processor.Start(handleOnProgress, OnProcessorFinished);
         }
 
         private void handleOnProgress(Object sender, ConversionProgressEventArgs args)
         {
-            ProcessStatusDictionary[args.ProcessId] = args.Percent;
-            if(args.Percent > 99)
+            if(args.ProcessId == 0)
             {
-                ProcessStatusDictionary.Remove(args.ProcessId);
-                if(ProcessStatusDictionary.Count == 0)
+                CleanUpProcesses();
+                if (ProcessStatusDictionary.Count == 0)
                 {
                     UpdateHandler?.Invoke((0, 100));
+                    return;
                 }
+
+                double progressTotal = ProcessStatusDictionary.Values.Sum() / ProcessStatusDictionary.Count;
+                UpdateHandler?.Invoke((ProcessorDictionary.Count, progressTotal));
             }
+            ProcessStatusDictionary[args.ProcessId] = args.Percent;
+            
             //sum up all of the Processor status's and 
             if (ProcessStatusDictionary.Count > 0)
             {
-                // TODO cross thread issue
                 double progressTotal = ProcessStatusDictionary.Values.Sum() / ProcessStatusDictionary.Count;
-                UpdateHandler?.Invoke((ProcessorList.Count, progressTotal));
+                UpdateHandler?.Invoke((ProcessorDictionary.Count, progressTotal));
+            }
+        }
+        private void CleanUpProcesses()
+        {
+            Process[] processlist = Process.GetProcesses();
+            List<long> processIdList = processlist.Select(p => (long)p.Id).ToList();
+            long[] existingProcesses = ProcessStatusDictionary.Keys.Intersect(processIdList).ToArray();
+
+            List<KeyValuePair<long, int>> itemsToRemove = ProcessStatusDictionary.Where(element => !existingProcesses.Any(p => p == element.Key)).ToList();
+            foreach (KeyValuePair<long, int> pair in itemsToRemove)
+            {
+                ProcessStatusDictionary.Remove(pair.Key, out _);
             }
         }
 
         private void OnProcessorFinished(IVideoProcessor processor, IConversionResult results)
         {
-            processor.Conversion.OnProgress -= handleOnProgress;
-            ProcessorList?.Remove(processor);
+            ProcessorDictionary.Remove(processor.InputFile, out _);
         }
     }
 }
