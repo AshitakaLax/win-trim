@@ -14,6 +14,13 @@ namespace video_trimmer.Processing
     {
         private Action<(int jobs, double progress)> UpdateProgressHandler;
         private ConcurrentDictionary<long, int> ProcessStatusDictionary = new ConcurrentDictionary<long, int>();
+        private ConcurrentQueue<IVideoProcessor> ProcessorQueue = new ConcurrentQueue<IVideoProcessor>();
+        public ProcessorManager(int maxConcurrentThreads = 8)
+        {
+            MaxConcurrentThreads = maxConcurrentThreads;
+        }
+
+        public int MaxConcurrentThreads { get; set; }
         public ConcurrentDictionary<string, IVideoProcessor> ProcessorDictionary { get; set; } = new ConcurrentDictionary<string, IVideoProcessor>();
         public Action<(int jobs, double progress)> UpdateHandler { get => UpdateProgressHandler; set => UpdateProgressHandler = value; }
 
@@ -24,8 +31,15 @@ namespace video_trimmer.Processing
                 MessageBox.Show($"File({processor.InputFile}) is already being processed");
                 return;
             }
-
             ProcessorDictionary[processor.InputFile] = processor;
+
+            if(ProcessorDictionary.Count >= MaxConcurrentThreads)
+            {
+                // queue up the new processor, and don't start it.
+                ProcessorQueue.Enqueue(processor);
+                return;
+            }
+
 
             processor.Start(handleOnProgress, OnProcessorFinished);
         }
@@ -69,6 +83,13 @@ namespace video_trimmer.Processing
         private void OnProcessorFinished(IVideoProcessor processor, IConversionResult results)
         {
             ProcessorDictionary.Remove(processor.InputFile, out _);
+            //if there are still processes in the queue start the next one.
+            if(!ProcessorQueue.IsEmpty)
+            {
+                ProcessorQueue.TryDequeue(out IVideoProcessor nextProcessor);
+
+                nextProcessor.Start(handleOnProgress, OnProcessorFinished);
+            }
         }
     }
 }

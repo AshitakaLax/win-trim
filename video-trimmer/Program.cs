@@ -10,7 +10,6 @@ namespace video_trimmer
         [STAThread]
         static void Main()
         {
-            ConversionProgressEventArgs temp = new ConversionProgressEventArgs(TimeSpan.MinValue, TimeSpan.MaxValue, Thread.CurrentThread.ManagedThreadId);
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();

@@ -59,7 +59,7 @@
             this.videoView.Location = new System.Drawing.Point(0, 0);
             this.videoView.MediaPlayer = null;
             this.videoView.Name = "videoView";
-            this.videoView.Size = new System.Drawing.Size(760, 685);
+            this.videoView.Size = new System.Drawing.Size(758, 685);
             this.videoView.TabIndex = 0;
             this.videoView.Text = "videoView2";
             // 
@@ -70,7 +70,7 @@
             this.videoView2.Location = new System.Drawing.Point(0, 0);
             this.videoView2.MediaPlayer = null;
             this.videoView2.Name = "videoView2";
-            this.videoView2.Size = new System.Drawing.Size(788, 685);
+            this.videoView2.Size = new System.Drawing.Size(790, 685);
             this.videoView2.TabIndex = 1;
             this.videoView2.Text = "videoView3";
             // 
@@ -87,7 +87,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.videoView2);
             this.splitContainer1.Size = new System.Drawing.Size(1551, 685);
-            this.splitContainer1.SplitterDistance = 760;
+            this.splitContainer1.SplitterDistance = 758;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -141,6 +141,7 @@
             // 
             // trackBar1
             // 
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar1.Location = new System.Drawing.Point(674, 704);
             this.trackBar1.Maximum = 600;
             this.trackBar1.Name = "trackBar1";
@@ -151,9 +152,10 @@
             // 
             // trackBar2
             // 
+            this.trackBar2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar2.Location = new System.Drawing.Point(1486, 704);
             this.trackBar2.Maximum = 0;
-            this.trackBar2.Minimum = -600;
+            this.trackBar2.Minimum = -1200;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Size = new System.Drawing.Size(740, 136);
             this.trackBar2.TabIndex = 9;
@@ -172,6 +174,7 @@
             // 
             // EndTrimLabel
             // 
+            this.EndTrimLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.EndTrimLabel.AutoSize = true;
             this.EndTrimLabel.Location = new System.Drawing.Point(1919, 819);
             this.EndTrimLabel.Margin = new System.Windows.Forms.Padding(9, 0, 9, 0);
