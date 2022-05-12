@@ -148,7 +148,7 @@ namespace video_trimmer
 
         private void UpdateProgressStatus((int jobs, double progress) status)
         {
-            WriteProgressStatus($"Jobs:{status.jobs} Average Progress:{status.progress}");
+            WriteProgressStatus($"Active Jobs:{status.jobs} Pending Jobs:{this.ProcessorManager.ProcessorQueue.Count} Average Progress:{status.progress}");
         }
 
         private void WriteProgressStatus(string text)

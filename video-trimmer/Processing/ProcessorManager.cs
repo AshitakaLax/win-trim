@@ -14,13 +14,13 @@ namespace video_trimmer.Processing
     {
         private Action<(int jobs, double progress)> UpdateProgressHandler;
         private ConcurrentDictionary<long, int> ProcessStatusDictionary = new ConcurrentDictionary<long, int>();
-        private ConcurrentQueue<IVideoProcessor> ProcessorQueue = new ConcurrentQueue<IVideoProcessor>();
         public ProcessorManager(int maxConcurrentThreads = 8)
         {
             MaxConcurrentThreads = maxConcurrentThreads;
         }
 
         public int MaxConcurrentThreads { get; set; }
+        public ConcurrentQueue<IVideoProcessor> ProcessorQueue { get; private set; } = new ConcurrentQueue<IVideoProcessor>();
         public ConcurrentDictionary<string, IVideoProcessor> ProcessorDictionary { get; set; } = new ConcurrentDictionary<string, IVideoProcessor>();
         public Action<(int jobs, double progress)> UpdateHandler { get => UpdateProgressHandler; set => UpdateProgressHandler = value; }
 
