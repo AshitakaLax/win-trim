@@ -14,7 +14,7 @@ namespace video_trimmer.Processing
     {
         private Action<(int jobs, double progress)> UpdateProgressHandler;
         private ConcurrentDictionary<long, int> ProcessStatusDictionary = new ConcurrentDictionary<long, int>();
-        public ProcessorManager(int maxConcurrentThreads = 8)
+        public ProcessorManager(int maxConcurrentThreads = 3)
         {
             MaxConcurrentThreads = maxConcurrentThreads;
         }

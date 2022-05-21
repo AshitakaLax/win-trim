@@ -13,5 +13,7 @@ namespace video_trimmer.Processing
         ConcurrentQueue<IVideoProcessor> ProcessorQueue { get; }
 
         Action<(int jobs, double progress)> UpdateHandler { get; set; }
+
+        int MaxConcurrentThreads { get; set; }
     }
 }
